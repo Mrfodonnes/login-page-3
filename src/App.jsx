@@ -1,10 +1,28 @@
 import { useState } from "react"
+import { toast } from "react-toastify"
 
 export default function App() {
   const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
-  function login() {
-    alert("Login Executado!")
+  function login(event) {
+    event.preventDefault()
+    if(email === "" || password === "") {
+      toast.error("Email e senha são obrigatórios!")
+      return
+    }
+
+    if(password.length < 8) {
+      toast.error("A senha deve ter no mínimo 8 caracteres!")
+      return
+    }
+
+    if(!email.includes("@") || !email.includes(".com")) {
+      toast.error("Email inválido!")
+      return
+    }
+
+    toast.success("Login realizado com sucesso!")
   }
 
   return (
@@ -19,12 +37,14 @@ export default function App() {
            className="flex flex-col gap-[15px] mt-[20px]"
           >
             <input
+              onChange={(event) => setEmail(event.target.value)}
               type="email"
               placeholder="Email address"
               className="w-full h-[50px] bg-[#2727276a] border border-gray-400 pl-4"
             />
 
             <input
+              onChange={(event) => setPassword(event.target.value)}
               type="password"
               placeholder="Password"
               className="w-full h-[50px] bg-[#2727276a] border border-gray-400 pl-4"
